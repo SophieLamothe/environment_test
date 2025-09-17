@@ -15,7 +15,3 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 end
 RUBY
-
-git add config/environments/review.rb
-git commit -m "Add review environment inheriting from production"
-git push
