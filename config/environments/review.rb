@@ -1,5 +1,3 @@
-mkdir -p config/environments
-cat > config/environments/review.rb <<'RUBY'
 require_relative "production"
 
 Rails.application.configure do
