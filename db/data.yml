@@ -1,0 +1,26 @@
+
+---
+ar_internal_metadata:
+  columns:
+  - key
+  - value
+  - created_at
+  - updated_at
+  records: 
+  - - environment
+    - development
+    - 2025-09-02 01:54:31.069695000 Z
+    - 2025-09-02 01:54:31.069695000 Z
+
+---
+books:
+  columns:
+  - id
+  - title
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - Excited for Fall 2025
+    - 2025-09-02 01:58:13.852172000 Z
+    - 2025-09-02 01:58:13.852172000 Z

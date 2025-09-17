@@ -1,0 +1,84 @@
+name: Rails tests
+
+on: [push, pull_request]
+
+env:
+  RUBY_VERSION: '3.4.5'
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  DATABASE_USER: postgres
+  DATABASE_PASSWORD: password
+  DATABASE_HOST: 127.0.0.1
+  RAILS_ENV: test
+
+jobs:
+  rspec-test:
+    name: RSpec
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U ${{ env.POSTGRES_USER }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Install postgres client
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Create & migrate database
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+
+      - uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install
+
+      - name: Run tests
+        run: bundle exec rspec .
+
+      - name: Run brakeman
+        run: bundle exec brakeman -o brakeman.txt
+
+      - name: Run rubocop
+        run: bundle exec rubocop --force-exclusion vendor/*/** --out rubocop.txt
+
+      - name: Upload coverage results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage
+
+      - name: Upload rubocop report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rubocop-report.txt
+          path: rubocop.txt
+
+      - name: Upload brakeman report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: brakeman-report.txt
+          path: brakeman.txt
