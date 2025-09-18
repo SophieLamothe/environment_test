@@ -57,3 +57,5 @@ gem 'concurrent-ruby', '1.3.4'
 gem "bigdecimal", "~> 3.1"
 
 gem "mutex_m", "~> 0.3.0"
+
+gem 'seed_dump'
