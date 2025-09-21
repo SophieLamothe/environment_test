@@ -27,8 +27,12 @@ default: &default
  
 
 development:
-  <<: *default
+  adapter: postgresql
   database: test_app_development
+  username: test_app
+  password: test_password
+  host: 127.0.0.1
+  port: 5432
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
