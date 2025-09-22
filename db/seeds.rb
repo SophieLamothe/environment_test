@@ -1,7 +1,29 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+Book.delete_all
+
+if Rails.env.development?
+    titles = [
+        "Dev: The life of a turtle",
+        "Dev: The life of a cat",
+        "Dev: The life of a dog",
+        "Dev: The life of a bird",
+         "Dev: The life of a mouse"
+    ]
+elsif Rails.env.production?
+    titles = [
+        "Prod: The weight of a hundred kilograms",
+        "Prod: The weight of a five kilograms",
+        "Prod: The weight of a two kilograms",
+        "Prod: The weight of a three kilograms",
+        "Prod: The weight of a four kilograms"
+    ]
+elsif Rails.env.test?
+    titles = [
+        "TEST: RSpec Seed 1",
+        "TEST: RSpec Seed 2"
+    ]
+else
+    []
+end
+
+Book.create!(titles.map { |t| { title: t } })
+puts "Seeded #{Book.count} books for #{Rails.env}."

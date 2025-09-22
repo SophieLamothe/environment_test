@@ -1,22 +1,19 @@
-<%= form_with(model: book) do |form| %>
-  <% if book.errors.any? %>
+<%= form_with model: @book, local: true, data: { turbo: false } do |f| %>
+  <% if @book.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
-
+      <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
       <ul>
-        <% book.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
+        <% @book.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+   <div class="actions">
+    <%= f.submit(@book.persisted? ? "Update Book" : "Create Book") %>
   </div>
 <% end %>
