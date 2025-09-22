@@ -13,7 +13,7 @@
     <%= f.text_field :title %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Create Book" %>
+   <div class="actions">
+    <%= f.submit(@book.persisted? ? "Update Book" : "Create Book") %>
   </div>
 <% end %>

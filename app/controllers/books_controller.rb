@@ -20,6 +20,16 @@ class BooksController < ApplicationController
     end
   end
 
+  def edit; end 
+
+   def update
+    if @book.update(book_params)
+      redirect_to @book, notice: "Book was successfully updated.", status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
   def set_book
     @book = Book.find(params[:id])
